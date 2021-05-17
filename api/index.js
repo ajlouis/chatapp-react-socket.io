@@ -25,7 +25,7 @@ var verifyJwt = jwt({
     audience: 'this is a unique identifier',
     issuer: 'https://aljinteractive.us.auth0.com/',
     algorithms: ['RS256']
-}).unless({path: ['/api/users','/api/conversations','/api/messages']});
+});
 
 app.use(cors());
 

@@ -39,7 +39,7 @@ function App() {
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setMyuser(response.data)
                 } catch (error) {
-                    // console.log(error.message);
+                    console.log(error.message);
                 }
 
             } else {
