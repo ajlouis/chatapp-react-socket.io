@@ -30,8 +30,7 @@ function App() {
 
                 try {
                     const token = await getAccessTokenSilently();
-                    console.log('accesstoken', token);
-                    const response = await axios.get('/auth/register/', {
+                    const response = await axios.get('/auth/register', {
                         headers: {
                             authorization: `Bearer ${token}`
                         }
@@ -40,7 +39,7 @@ function App() {
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setMyuser(response.data)
                 } catch (error) {
-                    console.log(error.message);
+                    // console.log(error.message);
                 }
 
             } else {

@@ -5,7 +5,7 @@ const User = mongoose.model('User');
 
 exports.getUserInfo = async (token) => {
     const response = await axios.get(
-        'https://aljinteractive.auth0.com/userinfo',
+        'https://aljinteractive.us.auth0.com/userinfo',
         {
             headers: {
                 authorization: `Bearer ${token}`
@@ -23,7 +23,7 @@ exports.findAndSaveUser = async (userInfo) => {
     if (user) {
         return user;
     } else {
-        const user = await new User({userInfo}).save();
+        const user = await new User(userInfo).save();
         return user;
     }
 };
