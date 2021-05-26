@@ -1,28 +1,21 @@
 import "./login.css";
-import { useAuth0 } from "@auth0/auth0-react";
+export default function Login({loginWithRedirect}) {
 
-export default function Login() {
+    return (
 
-
-  const {loginWithRedirect} = useAuth0();
-
-  return (
-    <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">Lamasocial</h3>
-          <span className="loginDesc">
-            Connect with friends and the world around you on Lamasocial.
-          </span>
+        <div className="login-container">
+            <div className="logo">
+                {/*<img src="https://logos-world.net/wp-content/uploads/2020/05/WhatsApp-Logo.png"/>*/}
+            </div>
+            <div className="login-form">
+                <form>
+                    <input
+                        type="submit"
+                        className="profile-submit-btn"
+                        value="Join now" onClick={loginWithRedirect}
+                    />
+                </form>
+            </div>
         </div>
-        <div className="loginRight">
-          <div className="loginBox">
-          <button className="loginButton" onClick={loginWithRedirect}>Log In</button>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

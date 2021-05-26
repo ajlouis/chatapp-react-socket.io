@@ -1,18 +1,19 @@
 const express = require("express");
 const app = express();
+const http = require('http');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const userRoute = require("./routes/users");
-const authRoute = require("./routes/auth");
-const conversationRoute = require("./routes/conversations");
-const messageRoute = require("./routes/messages");
+const Route = require("./routes/route");
+const server = http.createServer(app);
 const cors = require('cors');
-
-const path = require("path");
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
+
+
+app.use(cors());
 
 //middleware to verify jwt token from frontend
 var verifyJwt = jwt({
@@ -27,23 +28,14 @@ var verifyJwt = jwt({
     algorithms: ['RS256']
 });
 
-app.use(cors());
-
-
+// Other middleware
 dotenv.config();
-
-
-//middleware
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+
 app.use(verifyJwt);
-
-
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/conversations", conversationRoute);
-app.use("/api/messages", messageRoute);
+app.use("/api", Route);
 
 
 // set up error handlers
@@ -60,16 +52,22 @@ app.use((error, req, res, next) => {
 })
 
 
+const io = (module.exports.io = require("socket.io")(server));
+const socketManager = require('./socketManager/socketManager');
+io.on("connection", socketManager);
+
+
+// Start server
 function startServer() {
-  mongoose
-      .connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
-      .then(db => {
-        console.log('db connected');
-        app.listen(process.env.PORT, () => {
-          console.log(`Backend server is running! on " ${process.env.PORT}`);
-        });
-      })
-      .catch(err => console.log('error connecting to db', err));
+    mongoose
+        .connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+        .then(db => {
+            console.log('db connected');
+            server.listen(process.env.PORT, () => {
+                console.log(`Backend server is running! on " ${process.env.PORT}`);
+            });
+        })
+        .catch(err => console.log('error connecting to db', err));
 }
 
 startServer();

@@ -7,10 +7,15 @@ const UserSchema = new mongoose.Schema(
             require: true,
             unique: true,
         },
+        sessionId: {
+            type: String,
+            require: true,
+        },
 
         nickname: {
             type: String,
         },
+
         email: {
             type: String,
             required: true,
