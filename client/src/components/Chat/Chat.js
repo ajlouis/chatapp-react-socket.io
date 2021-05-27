@@ -26,7 +26,7 @@ const Chat = ({sessionId, friendName, chats}) => {
                         <span className="name">{friendName}</span>
                     ) : null}
                     <p className="msg">{renderMsg(chat.msg)}</p>
-                    <span className="time">{shortFormatTime(chat.time)}</span>
+                    <span className="time">{shortFormatTime(parseInt(chat.time))}</span>
                 </div>
             ))}
         </ScrollToBottom>

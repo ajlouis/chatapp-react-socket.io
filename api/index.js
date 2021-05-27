@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const userRoute = require("./routes/users");
 const Route = require("./routes/route");
 const server = http.createServer(app);
 const cors = require('cors');

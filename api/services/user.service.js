@@ -1,7 +1,8 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
 const {getUniqueId} = require('../helper')
-const User = mongoose.model('User');
+const User = require("../models/User");
+
 const Chat = require('../models/Chat');
 
 exports.getUserInfoFromAuth0 = async (token) => {

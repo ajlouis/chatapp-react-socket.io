@@ -27,8 +27,6 @@ module.exports = (socket) => {
 
 
         socket.on("send-msg", async (data, callback) => {
-            console.log("send message called");
-
             const {senderId, receiverId, msg} = data;
             const chatObj = {
                 room: [receiverId, senderId],
@@ -37,7 +35,6 @@ module.exports = (socket) => {
                 msg,
                 time: getTime()
             }
-            console.log('chatObject::', chatObj);
             await saveChats(chatObj);
             io.to(receiverId).emit("receive-msg", chatObj);
             callback(chatObj);

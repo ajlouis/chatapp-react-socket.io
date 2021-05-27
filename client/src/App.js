@@ -11,12 +11,10 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,
 } from "react-router-dom";
 
 import {useAuth0, User} from '@auth0/auth0-react';
 import ProfileSection from "./components/ProfileSection/ProfileSection";
-import SearchPeople from "./components/SearchPeople/SearchPeople";
 import ChatCardsListing from "./components/ChatCardsListing/ChatCardsListing";
 import ChatSection from "./components/ChatSection/ChatSection";
 import {useCookies} from "react-cookie";
@@ -40,7 +38,6 @@ function App() {
     const [recentMsg, setRecentMsg] = useState({});
     const [recentOnlineFriend, setRecentOnlineFriend] = useState({});
     const [recentOfflineFriend, setRecentOfflineFriend] = useState({});
-    const [accessToken, setAccessToken] = useState('')
 
 
     const [friendsList, friendsListDispatch] = useReducer(
@@ -62,7 +59,6 @@ function App() {
             try {
                 const token = await getAccessTokenSilently();
                 console.log('token', token);
-                setAccessToken(token);
                 const response = await axios.get(`${LOGIN}`, {
                     headers: {
                         authorization: `Bearer ${token}`
@@ -101,6 +97,7 @@ function App() {
             });
             console.log('friendsList', response.data)
             friendsListDispatch({type: "FRIENDS", payload: response.data});
+            onlineOfflineUser();
         } catch (error) {
             setError(error);
             return false;
@@ -135,13 +132,11 @@ function App() {
         });
 
         socket.on("receive-msg", (data) => {
-            console.log(data)
             updateRecentMsg(data);
             setRecentMsg(data);
         })
 
         socket.on("user-typing", (data) => {
-            console.log(data)
             updateRecentMsg(data);
         })
     }
@@ -161,7 +156,6 @@ function App() {
                             <div className="App">
                                 <div className="left-side">
                                     <ProfileSection handleLogout={handleLogout}/>
-                                    {/*<SearchPeople/>*/}
                                     <ChatCardsListing friendsList={friendsList}/>
                                 </div>
                                 <Switch>
@@ -169,9 +163,9 @@ function App() {
                                         <div className="right-side">
                                             <ChatSection
                                                 updateRecentMsg={updateRecentMsg}
-                                                recentMsg={recentMsg}
-                                                recentOnlineFriend={recentOnlineFriend}
-                                                recentOfflineFriend={recentOfflineFriend}
+                                                // recentMsg={recentMsg}
+                                                // recentOnlineFriend={recentOnlineFriend}
+                                                // recentOfflineFriend={recentOfflineFriend}
                                             />
                                         </div>
                                     </Route>

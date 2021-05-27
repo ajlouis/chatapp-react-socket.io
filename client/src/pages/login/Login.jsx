@@ -5,7 +5,6 @@ export default function Login({loginWithRedirect}) {
 
         <div className="login-container">
             <div className="logo">
-                {/*<img src="https://logos-world.net/wp-content/uploads/2020/05/WhatsApp-Logo.png"/>*/}
             </div>
             <div className="login-form">
                 <form>

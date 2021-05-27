@@ -39,28 +39,28 @@ const ChatSection = ({
         }
     }, [paramId]);
 
-
-    useEffect(() => {
-        if (isChatLoading && recentMsg && paramId === recentMsg.senderId) {
-            chatsDispatch({type: "CHATS", payload: [recentMsg]});
-        }
-    }, [recentMsg.time]);
-
-    useEffect(() => {
-        if (paramId === recentOnlineFriend.sessionId) {
-            setFriendInfo({...friendInfo, isOnline: true});
-        }
-    }, [recentOnlineFriend]);
-
-    useEffect(() => {
-        if (paramId === recentOfflineFriend.sessionId) {
-            setFriendInfo({
-                ...friendInfo,
-                isOnline: false,
-                updatedAt: recentOfflineFriend.time,
-            });
-        }
-    }, [recentOfflineFriend]);
+    //
+    // useEffect(() => {
+    //     if (isChatLoading && recentMsg && paramId === recentMsg.senderId) {
+    //         chatsDispatch({type: "CHATS", payload: [recentMsg]});
+    //     }
+    // }, [recentMsg.time]);
+    //
+    // useEffect(() => {
+    //     if (paramId === recentOnlineFriend.sessionId) {
+    //         setFriendInfo({...friendInfo, isOnline: true});
+    //     }
+    // }, [recentOnlineFriend]);
+    //
+    // useEffect(() => {
+    //     if (paramId === recentOfflineFriend.sessionId) {
+    //         setFriendInfo({
+    //             ...friendInfo,
+    //             isOnline: false,
+    //             updatedAt: recentOfflineFriend.time,
+    //         });
+    //     }
+    // }, [recentOfflineFriend]);
 
 
     const sendMsg = (value, type, theme) => {
@@ -133,18 +133,10 @@ const ChatSection = ({
     const getChats = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.post(`${CHATS}/`, {
-                data: {
-                    senderId: userObj.senderId,
-                    receiverId: paramId
-                },
-                    headers: {
-                        authorization: `Bearer ${token}`
-                    }
-                }
+            const response = await axios.post(`${CHATS}/`,
+                {senderId: userObj.sessionId, receiverId: paramId}, {headers: {authorization: `Bearer ${token}`}}
             );
 
-            console.log("chats")
             chatsDispatch({type: "CHATS", payload: response.data});
             setChatLoading(true);
 
@@ -154,6 +146,7 @@ const ChatSection = ({
         }
 
     }
+
 
     return (
         <div>
