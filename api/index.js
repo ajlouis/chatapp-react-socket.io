@@ -14,6 +14,11 @@ const jwks = require('jwks-rsa');
 
 app.use(cors());
 
+// test route
+app.get('/', (req, res) => {
+    res.send('Welcome to instant chat server');
+});
+
 //middleware to verify jwt token from frontend
 var verifyJwt = jwt({
     secret: jwks.expressJwtSecret({

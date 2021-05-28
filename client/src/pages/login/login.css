@@ -3,17 +3,9 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: #eee;
+    background: #c8c8c8;
 }
-.login-container .logo {
-    width: 120px;
-    position: absolute;
-    top: 15px;
-    right: 0;
-}
-.login-container .logo img {
-    width: 100%;
-}
+
 .login-container .login-form {
     width: 400px;
     height: 400px;
@@ -23,7 +15,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background:rgb(71 73 80 / 90%);
     position: relative;
 }
 .login-container .login-form form {
@@ -34,58 +26,17 @@
     height: 100%;
     width: 100%;
 }
-.login-container .login-form form .profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 10px 0 #ddd;
-}
-.login-container .login-form form .profile-img .file-upload {
-    position: absolute;
-    height: 150px;
-    width: 150px;
-    opacity: 0;
-    cursor: pointer;
-}
-.login-container .login-form form .profile-img .icon-block {
-    font-size: 50px;
-    color: #fff;
-}
-.login-container .login-form form .profile-name {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    color: #999;
-}
-.login-container .login-form form .profile-name .icon-block {
-    position: absolute;
-    left: 28px;
-}
-.login-container .login-form form .profile-name input {
-    font-size: 20px;
-    padding: 5px;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid #ccc;
-    width: calc(100% - 40px);
-    height: 40px;
-    text-align: center;
-}
+
+
 .login-container .login-form form .profile-submit-btn {
     width: 200px;
     height: 50px;
     font-size: 18px;
     border: none;
-    background: #46c756;
+    background: black;
     columns: #fff;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }

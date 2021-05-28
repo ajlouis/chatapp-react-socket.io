@@ -4,14 +4,12 @@ export default function Login({loginWithRedirect}) {
     return (
 
         <div className="login-container">
-            <div className="logo">
-            </div>
             <div className="login-form">
                 <form>
                     <input
                         type="submit"
                         className="profile-submit-btn"
-                        value="Join now" onClick={loginWithRedirect}
+                        value="Signin" onClick={loginWithRedirect}
                     />
                 </form>
             </div>

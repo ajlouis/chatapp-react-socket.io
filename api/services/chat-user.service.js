@@ -1,9 +1,8 @@
 const axios = require('axios');
-const mongoose = require('mongoose');
 const {getUniqueId} = require('../helper')
 const User = require("../models/User");
-
 const Chat = require('../models/Chat');
+const redisClient = require("./../redis");
 
 exports.getUserInfoFromAuth0 = async (token) => {
 
@@ -16,7 +15,7 @@ exports.getUserInfoFromAuth0 = async (token) => {
         });
 
     const userinfo = response.data;
-    console.log('userinfo:', userinfo);
+    console.log('userinfo from Auth0:', userinfo);
     return userinfo
 };
 
@@ -45,10 +44,7 @@ exports.getUserInfo = async (sessionId) => {
 }
 
 exports.getUserChats = async (senderId, receiverId) => {
-    console.log('inside getUserChats::', senderId, receiverId);
     const chats = await Chat.find({room: {$all: [senderId, receiverId]}});
-    console.log('chats retrieved:', chats);
-
     return chats;
 
 }
@@ -56,8 +52,23 @@ exports.getUserChats = async (senderId, receiverId) => {
 exports.saveChats = async (payload) => {
     const chatObj = await new Chat(payload).save();
     return chatObj._id;
-
 }
+
+exports.addUsersToListRedis = (key, subKey, value, cb) => {
+    redisClient.HMSET(key, subKey, JSON.stringify(value), (err, res) => {
+        return cb(err, res);
+    });
+};
+
+exports.removeUsersFromListRedis = (key, subKey) => {
+    redisClient.HDEL(key, subKey);
+};
+
+exports.getOfflineUserInfo = (key, subKey, cb) => {
+    redisClient.HGET(key, subKey, (err, res) => {
+        cb(err, res);
+    });
+};
 
 
 

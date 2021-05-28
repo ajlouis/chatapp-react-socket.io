@@ -1,6 +1,8 @@
 import './ProfileSection.css'
 import AuthContext from "../../context/AuthContext";
 import {useContext} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowRight, faUser} from "@fortawesome/free-solid-svg-icons";
 
 const ProfileSection = ({handleLogout}) => {
     const userObj = useContext(AuthContext);
@@ -12,7 +14,9 @@ const ProfileSection = ({handleLogout}) => {
             </div>
             {name}
             <div className="action-items" onClick={handleLogout}>
-                Logout
+               <span style={{fontWeight: "bold",cursor:"pointer"}} >Logout</span>
+
+
             </div>
         </div>
     )

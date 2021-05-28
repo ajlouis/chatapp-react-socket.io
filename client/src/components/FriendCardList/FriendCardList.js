@@ -1,11 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronDown, faUser} from "@fortawesome/free-solid-svg-icons";
-import "./ChatCardsListing.css";
+import "./FriendCardLists.css";
 import {shortFormatTime} from "./../../utils/helper";
 import {NavLink} from "react-router-dom"
 
 
-const ChatCardsListing = ({friendsList}) => {
+const FriendCardList = ({friendsList}) => {
 
     const renderRecentMsg = (data) => {
         let msg = "";
@@ -41,9 +41,6 @@ const ChatCardsListing = ({friendsList}) => {
                             {friendsList[key].recentMsg &&
                             shortFormatTime(friendsList[key].recentMsg.time)}
                         </div>
-                        <div className="action-btn">
-                            <FontAwesomeIcon icon={faChevronDown}/>
-                        </div>
                     </div>
                 </NavLink>
             ))}
@@ -52,4 +49,4 @@ const ChatCardsListing = ({friendsList}) => {
     );
 };
 
-export default ChatCardsListing;
+export default FriendCardList;

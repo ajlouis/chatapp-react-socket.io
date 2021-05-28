@@ -1,31 +1,31 @@
-const friendsListReducer = (state, action) => {
-    let draftState = { ...state };
+const friendsListReducer = (currentState, action) => {
+    let newState = { ...currentState };
     switch (action.type) {
         case "FRIENDS":
-            draftState = action.payload;
-            return draftState;
+            newState = action.payload;
+            return newState;
         case "NEW_FRIEND":
-            draftState = {
-                ...draftState,
+            newState = {
+                ...newState,
                 [action.payload.sessionId]: action.payload,
             }
-            return draftState;
+            return newState;
         case "RECENT_MSG":
-            if(draftState[action.payload.senderId]){
-                draftState[action.payload.senderId]["recentMsg"] = {
+            if(newState[action.payload.senderId]){
+                newState[action.payload.senderId]["recentMsg"] = {
                     time: action.payload.time,
                     msg: action.payload.msg
                 }
             }
-            if(draftState[action.payload.receiverId]){
-                draftState[action.payload.receiverId]["recentMsg"] = {
+            if(newState[action.payload.receiverId]){
+                newState[action.payload.receiverId]["recentMsg"] = {
                     time: action.payload.time,
                     msg: action.payload.msg
                 }
             }
-            return draftState;
+            return newState;
         default:
-            return state;
+            return currentState;
     }
 }
 

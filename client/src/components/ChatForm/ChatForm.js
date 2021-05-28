@@ -1,10 +1,5 @@
 import {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faSmile,
-    faPaperclip,
-    faMicrophone,
-} from "@fortawesome/free-solid-svg-icons";
+
 import "./ChatForm.css";
 
 const ChatForm = ({sendMsg, sendTyping}) => {
@@ -26,8 +21,6 @@ const ChatForm = ({sendMsg, sendTyping}) => {
     return (
         <div className="chat-form">
             <div className="action-btn">
-                {/*<FontAwesomeIcon className="icon-block" icon={faSmile}/>*/}
-                {/*<FontAwesomeIcon className="icon-block" icon={faPaperclip}/>*/}
             </div>
             <input
                 value={msg}
@@ -36,10 +29,6 @@ const ChatForm = ({sendMsg, sendTyping}) => {
                 className="chat-input"
                 placeholder="message"
             />
-            {/*<FontAwesomeIcon*/}
-            {/*    className="icon-block active"*/}
-            {/*    icon={faMicrophone}*/}
-            {/*/>*/}
         </div>
     );
 };

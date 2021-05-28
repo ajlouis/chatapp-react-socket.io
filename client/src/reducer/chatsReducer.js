@@ -1,14 +1,14 @@
-const chatsReducer = (state, action) => {
-    let draftState = [...state];
+const chatsReducer = (currentState, action) => {
+    let newState = [...currentState];
     switch (action.type) {
         case "CHATS":
-            draftState = [...draftState, ...action.payload];
-            return draftState;
+            newState = [...newState, ...action.payload];
+            return newState;
         case "RESET_CHATS":
-            draftState = action.payload;
-            return draftState;
+            newState = action.payload;
+            return newState;
         default:
-            return state;
+            return currentState;
     }
 }
 

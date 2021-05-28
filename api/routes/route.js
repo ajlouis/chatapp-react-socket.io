@@ -1,22 +1,23 @@
 const router = require("express").Router();
-const userService = require("../services/user.service")
+const chatUserService = require("../services/chat-user.service")
 const axios = require("axios")
 
 //LOGIN
 router.get("/auth/login", async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        const userInfo = await userService.getUserInfoFromAuth0(token);
-        const savedUser = await userService.findAndSaveUser(userInfo);
+        const userInfo = await chatUserService.getUserInfoFromAuth0(token);
+        const savedUser = await chatUserService.findAndSaveUser(userInfo);
         res.status(200).json(savedUser);
     } catch (err) {
         res.status(500).json(err)
     }
 });
 
+//Get User List
 router.get("/users-list/:id", async (req, res) => {
     try {
-        const userLists = await userService.getUsersList(req.params.id);
+        const userLists = await chatUserService.getUsersList(req.params.id);
         let userListObj = {};
         if (userLists.length) {
             for (let i = 0; i < userLists.length; i++) {
@@ -29,45 +30,40 @@ router.get("/users-list/:id", async (req, res) => {
     }
 });
 
+//Get Chat User Information
 router.get("/user/:id", async (req, res) => {
     try {
-        const userInfo = await userService.getUserInfo(req.params.id);
+        const userInfo = await chatUserService.getUserInfo(req.params.id);
         res.status(200).send(userInfo);
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
+
+//get User Chats
 router.post("/chats", async (req, res) => {
     try {
         const {senderId, receiverId} = req.body;
-        const userChats = await userService.getUserChats(senderId, receiverId);
+        const userChats = await chatUserService.getUserChats(senderId, receiverId);
         res.status(200).send(userChats);
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
-//
-// router.get('/index', async (req, res) => {
-//     const token = req.headers.authorization.split(' ')[1];
-//     try {
-//         console.log('accessToken', token);
-//         const response = await axios.get(
-//             'https://aljinteractive.us.auth0.com/userinfo',
-//             {
-//                 headers: {
-//                     authorization: `Bearer ${token}`
-//                 }
-//             });
-//
-//         const userinfo = response.data;
-//         console.log('userinfo:', userinfo);
-//         res.send(userinfo);
-//
-//     } catch (error) {
-//         res.send(error);
-//     }
-// });
+
+//check if user is online from redis
+router.get("/user/is-offline/:id", async (req, res) => {
+    try {
+        await chatUserService.getOfflineUserInfo("WC:user:OFF", req.params.id, (e, r) => {
+            console.log("useroff response", r);
+            res.status(200).send(r ? r : false);
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 module.exports = router;

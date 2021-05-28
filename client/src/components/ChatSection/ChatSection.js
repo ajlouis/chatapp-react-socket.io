@@ -7,7 +7,7 @@ import SocketContext from "../../context/SocketContext";
 import chatsReducer from "../../reducer/chatsReducer";
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import {USER, CHATS} from "./../../utils/apiEndpionts";
+import {USER, CHATS, CHECK_IS_OFFLINE} from "./../../utils/apiEndpionts";
 import {useAuth0} from "@auth0/auth0-react";
 
 
@@ -39,28 +39,28 @@ const ChatSection = ({
         }
     }, [paramId]);
 
-    //
-    // useEffect(() => {
-    //     if (isChatLoading && recentMsg && paramId === recentMsg.senderId) {
-    //         chatsDispatch({type: "CHATS", payload: [recentMsg]});
-    //     }
-    // }, [recentMsg.time]);
-    //
-    // useEffect(() => {
-    //     if (paramId === recentOnlineFriend.sessionId) {
-    //         setFriendInfo({...friendInfo, isOnline: true});
-    //     }
-    // }, [recentOnlineFriend]);
-    //
-    // useEffect(() => {
-    //     if (paramId === recentOfflineFriend.sessionId) {
-    //         setFriendInfo({
-    //             ...friendInfo,
-    //             isOnline: false,
-    //             updatedAt: recentOfflineFriend.time,
-    //         });
-    //     }
-    // }, [recentOfflineFriend]);
+
+    useEffect(() => {
+        if (isChatLoading && recentMsg && paramId === recentMsg.senderId) {
+            chatsDispatch({type: "CHATS", payload: [recentMsg]});
+        }
+    }, [recentMsg.time]);
+
+    useEffect(() => {
+        if (paramId === recentOnlineFriend.sessionId) {
+            setFriendInfo({...friendInfo, isOnline: true});
+        }
+    }, [recentOnlineFriend]);
+
+    useEffect(() => {
+        if (paramId === recentOfflineFriend.sessionId) {
+            setFriendInfo({
+                ...friendInfo,
+                isOnline: false,
+                updatedAt: recentOfflineFriend.time,
+            });
+        }
+    }, [recentOfflineFriend]);
 
 
     const sendMsg = (value, type, theme) => {
@@ -105,7 +105,7 @@ const ChatSection = ({
                 isOnline: true,
             }
 
-            if (userOfflineRes) {
+            if (userOfflineRes === false) {
                 userAvailability.isOnline = false;
                 userAvailability["updatedAt"] = userOfflineRes.time;
             }
@@ -122,13 +122,16 @@ const ChatSection = ({
 
     const checkIfUserOffline = async () => {
         try {
-            return null;
+            const token = await getAccessTokenSilently();
+            const response = await axios.get(`${CHECK_IS_OFFLINE}/${paramId}`, {headers: {authorization: `Bearer ${token}`}}
+            );
+            console.log("checkoffline response data", response.data);
+            return response.data;
         } catch (e) {
             setError(error);
             return false;
         }
     }
-
 
     const getChats = async () => {
         try {
@@ -146,7 +149,6 @@ const ChatSection = ({
         }
 
     }
-
 
     return (
         <div>

@@ -15,7 +15,7 @@ import {
 
 import {useAuth0, User} from '@auth0/auth0-react';
 import ProfileSection from "./components/ProfileSection/ProfileSection";
-import ChatCardsListing from "./components/ChatCardsListing/ChatCardsListing";
+import FriendCardList from "./components/FriendCardList/FriendCardList";
 import ChatSection from "./components/ChatSection/ChatSection";
 import {useCookies} from "react-cookie";
 
@@ -156,16 +156,16 @@ function App() {
                             <div className="App">
                                 <div className="left-side">
                                     <ProfileSection handleLogout={handleLogout}/>
-                                    <ChatCardsListing friendsList={friendsList}/>
+                                    <FriendCardList friendsList={friendsList}/>
                                 </div>
                                 <Switch>
                                     <Route path="/:id">
                                         <div className="right-side">
                                             <ChatSection
                                                 updateRecentMsg={updateRecentMsg}
-                                                // recentMsg={recentMsg}
-                                                // recentOnlineFriend={recentOnlineFriend}
-                                                // recentOfflineFriend={recentOfflineFriend}
+                                                recentMsg={recentMsg}
+                                                recentOnlineFriend={recentOnlineFriend}
+                                                recentOfflineFriend={recentOfflineFriend}
                                             />
                                         </div>
                                     </Route>

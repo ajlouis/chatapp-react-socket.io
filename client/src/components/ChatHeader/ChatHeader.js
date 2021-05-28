@@ -21,11 +21,8 @@ const ChatHeader = ({friendInfo}) => {
             <div className="card-detail">
                 <h4 className="title">{name ? name : ""}</h4>
                 <p className="desc">
-                    {isOnline ? "Online" : `Last seen ${updatedAt ? formatDate(updatedAt) : " "}`}
+                    {isOnline ? "Online" : `Last seen ${formatDate(updatedAt)}`}
                 </p>
-            </div>
-            <div className="acion-items">
-                <FontAwesomeIcon icon={faEllipsisV}/>
             </div>
         </div>
     );
