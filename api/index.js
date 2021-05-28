@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const cors = require('cors');
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
+const path = require('path');
 
 
 app.use(cors());
@@ -56,7 +57,12 @@ app.use((error, req, res, next) => {
 })
 
 
-const io = (module.exports.io = require("socket.io")(server));
+const io = (module.exports.io = require("socket.io")(server, {
+    cors: {
+        origin: '*',
+    }
+}));
+
 const socketManager = require('./socketManager/socketManager');
 io.on("connection", socketManager);
 
