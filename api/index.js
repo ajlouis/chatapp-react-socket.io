@@ -10,7 +10,6 @@ const server = http.createServer(app);
 const cors = require('cors');
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
-const path = require('path');
 
 
 app.use(cors());
