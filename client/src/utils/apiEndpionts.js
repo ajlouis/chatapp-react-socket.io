@@ -1,5 +1,6 @@
-export const CHECK_IS_OFFLINE = "user/is-offline";
-export const LOGIN = "auth/login";
-export const USER_LIST = "users-list";
-export const USER = "user";
-export const CHATS = "chats";
+export const BASE_URL = "https://magnum-chat-server.herokuapp.com";
+export const CHECK_IS_OFFLINE = "api/user/is-offline";
+export const LOGIN = "api/auth/login";
+export const USER_LIST = "api/users-list";
+export const USER = "api/user";
+export const CHATS = "api/chats";

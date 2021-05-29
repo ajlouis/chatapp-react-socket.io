@@ -42,7 +42,6 @@ app.use(morgan("common"));
 app.use(verifyJwt);
 app.use("/api", Route);
 
-
 // set up error handlers
 app.use((req, res, next) => {
     const error = new Error('Not Found');

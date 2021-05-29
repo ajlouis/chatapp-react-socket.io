@@ -1,5 +1,5 @@
 import Login from "./pages/login/Login";
-import {LOGIN, USER_LIST} from "./utils/apiEndpionts";
+import {BASE_URL, LOGIN, USER_LIST} from "./utils/apiEndpionts";
 import {useEffect, useReducer, useRef, useState} from "react";
 import axios from 'axios';
 import './App.css';
@@ -22,7 +22,7 @@ import {useCookies} from "react-cookie";
 import AuthContext from "./context/AuthContext";
 
 const initialState = {};
-const socket = io.connect("http://localhost:8800", {
+const socket = io.connect("https://magnum-chat-server.herokuapp.com", {
     reconnection: true,
     reconnectionDelay: 500,
     reconnectionAttempts: 10,
@@ -59,7 +59,7 @@ function App() {
             try {
                 const token = await getAccessTokenSilently();
                 console.log('token', token);
-                const response = await axios.get(`${LOGIN}`, {
+                const response = await axios.get(`${BASE_URL}/${LOGIN}`, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }
@@ -90,7 +90,7 @@ function App() {
 
     const getFriendsList = async (userData, token) => {
         try {
-            const response = await axios.get(`${USER_LIST}/${userData.sessionId}`, {
+            const response = await axios.get(`${BASE_URL}/${USER_LIST}/${userData.sessionId}`, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }
@@ -134,6 +134,7 @@ function App() {
         socket.on("receive-msg", (data) => {
             updateRecentMsg(data);
             setRecentMsg(data);
+
         })
 
         socket.on("user-typing", (data) => {

@@ -1,6 +1,6 @@
 const io = require('./../index').io;
 const {getTime} = require('./../helper');
-const {saveChats, addUsersToListRedis, removeUsersFromListRedis} = require('../services/chat-user.service');
+const {saveChat, addUsersToListRedis, removeUsersFromListRedis} = require('../services/chat-user.service');
 
 
 module.exports = (socket) => {
@@ -20,22 +20,27 @@ module.exports = (socket) => {
             };
 
             // WC:user:OFF (delete the user from here)
-            removeUsersFromListRedis(`WC:user:OFF`, sessionId);
+            // removeUsersFromListRedis(`WC:user:OFF`, sessionId);
             // WC:user:ON (add user here)
-            addUsersToListRedis(
-                `WC:user:ON`,
-                sessionId,
-                {time: currentTime},
-                (e, r) => {
-                    if (e) return callback(e);
-                    console.log("new user joined", r);
-                    socket.sessionId = sessionId;
-                    socket.join(sessionId);
-                    socket.broadcast.emit("new-online-user", newUser);
-                    callback();
-                }
-            );
+            // addUsersToListRedis(
+            //     `WC:user:ON`,
+            //     sessionId,
+            //     {time: currentTime},
+            //     (e, r) => {
+            //         if (e) return callback(e);
+            //         socket.sessionId = sessionId;
+            //         socket.join(sessionId);
+            //         socket.broadcast.emit("new-online-user", newUser);
+            //         console.log("new user joined", r);
+            //         callback();
+            //     }
+            // );
 
+            socket.sessionId = sessionId;
+            socket.join(sessionId);
+            socket.broadcast.emit("new-online-user", newUser);
+                    callback();
+            console.log("new user joined");
         });
 
 
@@ -48,7 +53,7 @@ module.exports = (socket) => {
                 msg,
                 time: getTime()
             }
-            await saveChats(chatObj);
+            await saveChat(chatObj);
             io.to(receiverId).emit("receive-msg", chatObj);
             callback(chatObj);
         });
@@ -71,15 +76,16 @@ module.exports = (socket) => {
         socket.on("disconnect", () => {
             const {sessionId} = socket;
             if (sessionId) {
-                removeUsersFromListRedis(`WC:user:ON`, sessionId);
+                // removeUsersFromListRedis(`WC:user:ON`, sessionId);
                 const offlineUser = {
                     time: getTime(),
                     sessionId
                 }
 
-                addUsersToListRedis(`WC:user:OFF`, sessionId, offlineUser, (e, r) => {
-                    console.log("user left", r);
-                });
+                // addUsersToListRedis(`WC:user:OFF`, sessionId, offlineUser, (e, r) => {
+                //     console.log("user left", r);
+                // });
+
                 socket.broadcast.emit("new-offline-user", offlineUser);
             }
         })

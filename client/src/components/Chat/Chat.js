@@ -19,7 +19,7 @@ const Chat = ({sessionId, friendName, chats}) => {
         <ScrollToBottom className="chat-section">
             {chats.map((chat) => (
                 <div
-                    key={chat._id}
+                    key={chat.createdAt}
                     className={`chat ${sessionId === chat.senderId ? "you" : "me"}`}
                 >
                     {sessionId === chat.senderId ? (

@@ -49,7 +49,7 @@ exports.getUserChats = async (senderId, receiverId) => {
 
 }
 
-exports.saveChats = async (payload) => {
+exports.saveChat = async (payload) => {
     const chatObj = await new Chat(payload).save();
     return chatObj._id;
 }

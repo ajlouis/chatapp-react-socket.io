@@ -7,7 +7,7 @@ import SocketContext from "../../context/SocketContext";
 import chatsReducer from "../../reducer/chatsReducer";
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import {USER, CHATS, CHECK_IS_OFFLINE} from "./../../utils/apiEndpionts";
+import {USER, CHATS, CHECK_IS_OFFLINE, BASE_URL} from "./../../utils/apiEndpionts";
 import {useAuth0} from "@auth0/auth0-react";
 
 
@@ -43,6 +43,7 @@ const ChatSection = ({
     useEffect(() => {
         if (isChatLoading && recentMsg && paramId === recentMsg.senderId) {
             chatsDispatch({type: "CHATS", payload: [recentMsg]});
+
         }
     }, [recentMsg.time]);
 
@@ -94,13 +95,14 @@ const ChatSection = ({
     const getFriendInfo = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(`${USER}/${paramId}`, {
+            const response = await axios.get(`${BASE_URL}/${USER}/${paramId}`, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }
             });
 
-            const userOfflineRes = await checkIfUserOffline(response.data);
+            // const userOfflineRes = await checkIfUserOffline(response.data);
+            const userOfflineRes = true;
             let userAvailability = {
                 isOnline: true,
             }
@@ -123,7 +125,7 @@ const ChatSection = ({
     const checkIfUserOffline = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get(`${CHECK_IS_OFFLINE}/${paramId}`, {headers: {authorization: `Bearer ${token}`}}
+            const response = await axios.get(`${BASE_URL}/${CHECK_IS_OFFLINE}/${paramId}`, {headers: {authorization: `Bearer ${token}`}}
             );
             console.log("checkoffline response data", response.data);
             return response.data;
@@ -136,7 +138,7 @@ const ChatSection = ({
     const getChats = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.post(`${CHATS}/`,
+            const response = await axios.post(`${BASE_URL}/${CHATS}/`,
                 {senderId: userObj.sessionId, receiverId: paramId}, {headers: {authorization: `Bearer ${token}`}}
             );
 
