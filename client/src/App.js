@@ -22,7 +22,7 @@ import {useCookies} from "react-cookie";
 import AuthContext from "./context/AuthContext";
 
 const initialState = {};
-const socket = io.connect("https://magnum-chat-server.herokuapp.com", {
+const socket = io.connect("http://localhost:8080", {
     reconnection: true,
     reconnectionDelay: 500,
     reconnectionAttempts: 10,
